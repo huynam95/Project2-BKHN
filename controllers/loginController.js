@@ -22,10 +22,10 @@ exports.loginUser = async (req, res) => {
           // req.session.loggedin = true;
           // req.session.username = username;
 
+          const payload = { id: results[0].id, user: results[0].username };
+
           const accessToken = jwt.sign(
-            {
-              id: results[0].id,
-            },
+            payload,
             'access_secret_no_one_can_know_about_this',
             { expiresIn: 60 * 60 }
           );
@@ -36,7 +36,6 @@ exports.loginUser = async (req, res) => {
           });
 
           const data = {
-            token: accessToken,
             id: results[0].id,
             username: results[0].username,
             avatar: '',
@@ -44,6 +43,7 @@ exports.loginUser = async (req, res) => {
           };
 
           res.status(200).json({
+            token: accessToken,
             status: 'Success',
             message: 'Logged in',
             data,
@@ -58,4 +58,16 @@ exports.loginUser = async (req, res) => {
     res.send('Please enter Username and Password!');
     res.end();
   }
+};
+exports.authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    console.log(err);
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
 };

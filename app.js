@@ -1,5 +1,7 @@
 const express = require('express');
 const session = require('express-session');
+const passport = require('passport');
+const passportJWT = require('passport-jwt');
 
 const userRouter = require('./routes/userRoutes');
 const loginRouter = require('./routes/loginRoutes');
@@ -16,6 +18,7 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(passport.initialize());
 
 // 3) ROUTES
 app.use('/users', userRouter);
