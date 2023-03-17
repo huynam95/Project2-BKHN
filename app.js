@@ -1,5 +1,7 @@
 const express = require('express');
 const session = require('express-session');
+const cookies = require('cookie-parser');
+const AppError = require('./utils/appError');
 
 const userRouter = require('./routes/userRoutes');
 const loginRouter = require('./routes/loginRoutes');
@@ -16,6 +18,10 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookies());
+// app.use((req, res, next) => {
+//   next();
+// });
 
 // 3) ROUTES
 app.use('/users', userRouter);
