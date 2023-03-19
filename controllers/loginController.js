@@ -48,15 +48,15 @@ exports.loginUser = async (req, res) => {
               is_block: '',
             };
 
-            const url = `chat.html?username=${results[0].username}&room=${room}`;
+            // const url = `chat.html?username=${results[0].username}&room=${room}`;
 
-            res.redirect(url);
+            // res.redirect(url);
 
-            // res.status(200).json({
-            //   status: 'Success',
-            //   message: 'Logged in',
-            //   data,
-            // });
+            res.status(200).json({
+              status: 'Success',
+              message: 'Logged in',
+              data,
+            });
           } else {
             res.status(400).json({
               status: 'Failed',

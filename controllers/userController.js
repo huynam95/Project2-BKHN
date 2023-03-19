@@ -50,10 +50,10 @@ exports.createUser = async (req, res) => {
         encryptedPassword,
       ]);
 
-    // res.status(200).json({
-    //   status: 'Success',
-    //   message: 'Your account has been created',
-    // });
+    res.status(200).json({
+      status: 'Success',
+      message: 'Your account has been created',
+    });
     res.redirect('/');
   } catch (err) {
     if (err.code === 'ER_DUP_ENTRY')
